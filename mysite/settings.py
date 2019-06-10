@@ -76,7 +76,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+
+
+"""
+python manage.py migrate 会在default中的空的mysql数据库中创建auth_group、auth_user、django_migrations
+等10张table，python manage.py createsuperuser生成的管理员用户数据会催到auth_user表中
+
+"""
+
 DATABASES = {
+    #mysql配置
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'demo',
@@ -84,6 +93,7 @@ DATABASES = {
         'PASSWORD': '124419',
         'HOST': '127.0.0.1',
         'PORT': '3306',
+        #默认
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
