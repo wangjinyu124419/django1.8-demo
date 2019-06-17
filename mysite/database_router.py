@@ -15,12 +15,12 @@ LUGGAGE = {
 }
 class Router(object):
     def db_for_read(self, model, **hints):
-        logging.error('read---------------%r'%model._meta.app_label)
+        # logging.error('read---------------%r'%model._meta.app_label)
         # return model._meta.app_label
         return LUGGAGE.get(model._meta.app_label, 'default')
 
     def db_for_write(self, model, **hints):
-        logging.error('writer---------------%r'%model._meta.app_label)
+        # logging.error('writer---------------%r'%model._meta.app_label)
 
         # return model._meta.app_label
         return LUGGAGE.get(model._meta.app_label, 'default')
@@ -30,7 +30,7 @@ class Router(object):
 
 
     def allow_migrate(self, db, model):
-        logging.error('%r%r'%(db,model._meta.app_label))
+        # logging.error('%r%r'%(db,model._meta.app_label))
         """
         Make sure the app02 app only appears in the hvdb database.
         """

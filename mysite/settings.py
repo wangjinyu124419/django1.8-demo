@@ -93,7 +93,7 @@ auth_group、auth_user、django_migrations等10张table，
 python manage.py createsuperuser生成的管理员用户数据会催到auth_user表中
 
 """
-DATABASE_ROUTERS = ['mysite.database_router.Router',]
+# DATABASE_ROUTERS = ['mysite.database_router.Router',]
 DATABASES = {
     #mysql配置
     'default': {
