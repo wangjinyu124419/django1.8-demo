@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import functools
+
 from django.conf.urls import url
 from django.contrib import admin
 
@@ -64,24 +66,40 @@ class QuestionAdmin(admin.ModelAdmin):
         pass
     export_items_csv.short_description = "Export Selected as CSV"
 
-    #重写get_urls方法，自定义admin路由
+    #重写get_urls方法
+    #https://docs.djangoproject.com/en/1.8/ref/contrib/admin/#django.contrib.admin.ModelAdmin.get_urls
     def get_urls(self):
+        # settings.LOG.error('invoke_get_urls')
+        def wrap(view):
+            def wrapper(*args, **kwargs):
+                return self.admin_site.admin_view(view)(*args, **kwargs)
+            return functools.update_wrapper(wrapper, view)
         urls = super(QuestionAdmin, self).get_urls()
-        my_urls = [
-            url(r'^myview/$', self.my_view),
+        # settings.LOG.info(urls)
+        urlpatterns = [
+            url(r'^addlist/$', wrap(self.add_view), name='news_af_pushrule_addlist'),
         ]
-        print my_urls + urls
-        return my_urls + urls
+        return urlpatterns + urls
 
-    def my_view(self, request):
-        # ...
-        context = dict(
-           # Include common variables for rendering the admin template.
-           self.admin_site.each_context(request),
-           # Anything else you want in the context...
-           key='get_url',
-        )
-        return HttpResponse('override get url')
+
+    #重写get_urls方法，自定义admin路由
+    # def get_urls(self):
+    #     urls = super(QuestionAdmin, self).get_urls()
+    #     my_urls = [
+    #         url(r'^myview/$', self.my_view),
+    #     ]
+    #     print my_urls + urls
+    #     return my_urls + urls
+    #
+    # def my_view(self, request):
+    #     # ...
+    #     context = dict(
+    #        # Include common variables for rendering the admin template.
+    #        self.admin_site.each_context(request),
+    #        # Anything else you want in the context...
+    #        key='get_url',
+    #     )
+    #     return HttpResponse('override get url')
         # return TemplateResponse(request, "sometemplate.html", context)
 
 admin.site.register(Question, QuestionAdmin)

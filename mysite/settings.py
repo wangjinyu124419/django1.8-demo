@@ -32,6 +32,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = "new_users.CmsUser"
 
 # Application definition
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'polls',
     'polls_2',
+    'new_users',
 
 )
 
@@ -93,6 +95,8 @@ auth_group、auth_user、django_migrations等10张table，
 python manage.py createsuperuser生成的管理员用户数据会催到auth_user表中
 
 """
+
+
 # DATABASE_ROUTERS = ['mysite.database_router.Router',]
 DATABASES = {
     #mysql配置
@@ -162,10 +166,17 @@ SUIT_CONFIG = {
        'auth': 'icon-lock',
     },
     'MENU_OPEN_FIRST_CHILD': True, # Default True
-    'MENU_EXCLUDE': ('auth.group',),
+    # 'MENU_EXCLUDE': ('auth.group',),
     'MENU': (
-        'sites',
-        {'app': 'auth', 'icon':'icon-lock', 'models': ('user', 'group')},
+        # 'sites',
+        {'app': 'auth', 'icon': 'icon-lock'},
+
+        # {'app': 'auth', 'icon':'icon-lock', 'models': ('new_users' 'groups')},
+        {'app': 'new_users', 'icon':'icon-lock'},
+        {'app': 'polls', 'label': 'polls', 'icon': 'icon-file', 'models': (
+            'Question','Choice',
+
+        )},
         {'label': 'Settings', 'icon':'icon-cog', 'models': ('auth.user', 'auth.group')},
         {'label': 'Support', 'icon':'icon-question-sign', 'url': '/support/'},
     ),
