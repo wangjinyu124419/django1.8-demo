@@ -13,9 +13,13 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import logging
 import os
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+# from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d ： %(message)s')
+logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,6 +41,7 @@ AUTH_USER_MODEL = "new_users.CmsUser"
 # Application definition
 
 INSTALLED_APPS = (
+    'corsheaders',
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,10 +55,16 @@ INSTALLED_APPS = (
 
 )
 
+# CORS_ORIGIN_WHITELIST = (
+#       'http://localhost:63343',
+# )
+
+
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

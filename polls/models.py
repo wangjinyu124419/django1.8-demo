@@ -18,6 +18,7 @@ class Question(models.Model):
 
     push_entire = models.BooleanField(help_text='Push To All Users',default=True) # CharField actually
 
+
     YEAR_IN_SCHOOL_CHOICES = (
         ('f', 'Freshman'),
         ('s', 'Sophomore'),
@@ -40,9 +41,11 @@ class Question(models.Model):
     #字段简称
     was_published_recently.short_description = 'Published recently?'
 
+
+    #这里的方法会让QuestionForm打印实例是显示为空！！！
     #魔法方法
-    def __str__(self):
-        return self.question_text
+    # def __str__(self):
+    #     return self.question_text
 
 
 
@@ -83,3 +86,5 @@ class Question2(models.Model):
         verbose_name = _('InfraTopNews')
         verbose_name_plural = _('InfraTopNews')
         db_table = 'show_table'
+
+
