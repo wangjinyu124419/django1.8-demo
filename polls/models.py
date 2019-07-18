@@ -43,9 +43,9 @@ class Question(models.Model):
 
 
     #这里的方法会让QuestionForm打印实例是显示为空！！！
-    #魔法方法
-    # def __str__(self):
-    #     return self.question_text
+    # 魔法方法
+    def __str__(self):
+        return self.question_text
 
 
 

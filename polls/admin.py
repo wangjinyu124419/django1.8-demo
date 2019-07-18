@@ -75,11 +75,11 @@ class QuestionForm(forms.ModelForm):
         # logger.error('self.instance:%s'%self.instance)
         # logger.error('self.initial:%s'%self.initial)
 
-    def clean_flags(self):
-        flags=self.cleaned_data.get('flags')
-        if flags!=1:
-            raise forms.ValidationError(u'failure', code='invalid')
-        return flags
+    # def clean_flags(self):
+    #     flags=self.cleaned_data.get('flags')
+    #     if flags!=1:
+    #         raise forms.ValidationError(u'failure', code='invalid')
+    #     return flags
         # flags='test_flag'
         # return flags
 
@@ -106,7 +106,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display_links = ('question_text',)
     actions = ['export_items_csv']
     actions_on_bottom=True
-    list_per_page=1
+    list_per_page=10
     #显示其他对象，
     inlines = [ChoiceInline]
     # fieldsets控制添加数据是显示的字段
@@ -243,11 +243,11 @@ class ChoiceAdmin(admin.ModelAdmin):
     search_fields = ['votes']
 
     # 默认显示对象的__str__,list_display显示指定字段
-    list_display = ('_x_news','votes',)
+    list_display = ('id','choice_text','_x_news','votes',)
 
     actions = ['export_items_csv']
     actions_on_bottom=True
-    list_per_page=1
+    list_per_page=10
     #显示其他对象，
 
     # form = QuestionForm
@@ -260,7 +260,7 @@ class ChoiceAdmin(admin.ModelAdmin):
     # radio_fields = {'year_in_school': admin.VERTICAL}
     # fieldsets控制添加数据是显示的字段
     fieldsets = [
-        ('target', {'fields': ['choice_text','flags','prefer_football','question']}),
+        ('target', {'fields': ['choice_text','question']}),
         ('Date information', {'fields': ['votes'], 'classes': ['collapse']}),
     ]
     # date_hierarchy='pub_date'

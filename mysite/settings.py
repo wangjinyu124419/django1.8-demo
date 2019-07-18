@@ -32,6 +32,7 @@ SECRET_KEY = '6h88(4m0rk&ub^^s0=%pv+tu#0%960xrg68*ats#tzvxwg&6a+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
 
 ALLOWED_HOSTS = ["*"]
@@ -41,7 +42,7 @@ AUTH_USER_MODEL = "new_users.CmsUser"
 # Application definition
 
 INSTALLED_APPS = (
-    'corsheaders',
+    # 'corsheaders',
     'suit',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = (
     'polls_2',
     'new_users',
 
+
 )
 
 # CORS_ORIGIN_WHITELIST = (
@@ -61,7 +63,7 @@ INSTALLED_APPS = (
 
 
 MIDDLEWARE_CLASSES = (
-    'corsheaders.middleware.CorsMiddleware',
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
@@ -70,6 +72,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # 'polls.middleware.LoggingMiddleware',
 )
 
 ROOT_URLCONF = 'mysite.urls'
@@ -199,3 +202,34 @@ SUIT_CONFIG = {
 # TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 #     'django.core.context_processors.request',
 # )
+# LOG=logging.getLogger('wang')
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'default': {
+#             'format': '%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] -> %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'default': {
+#             'level': 'DEBUG',
+#             # 'level': 'INFO',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'default',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['default'],
+#             # 'level': 'INFO',
+#             'level': 'DEBUG',
+#         },
+#         'django.request': {
+#             'handlers': ['default'],
+#             'level': 'DEBUG',
+#             'propagate': False,
+#         },
+#     }
+# }
