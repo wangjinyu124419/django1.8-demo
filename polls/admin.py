@@ -106,7 +106,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display_links = ('question_text',)
     actions = ['export_items_csv']
     actions_on_bottom=True
-    list_per_page=10
+    # list_per_page=10
     #显示其他对象，
     inlines = [ChoiceInline]
     # fieldsets控制添加数据是显示的字段
@@ -247,7 +247,7 @@ class ChoiceAdmin(admin.ModelAdmin):
 
     actions = ['export_items_csv']
     actions_on_bottom=True
-    list_per_page=10
+    # list_per_page=10
     #显示其他对象，
 
     # form = QuestionForm

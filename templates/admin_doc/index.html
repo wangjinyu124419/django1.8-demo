@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; {% trans 'Documentation' %}
+</div>
+{% endblock %}
+{% block title %}{% trans 'Documentation' %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans 'Documentation' %}</h1>
+
+<div id="content-main">
+  <h3><a href="/static/lcx/pps_doc_current.pdf">{% trans 'Help Documentation' %}</a></h3>
+  <p>A detailed help document guides you to use PPS. </p>
+  <p>The online version of the <a href="/static/lcx/pps_doc_current.pdf">PDF</a> is on the <a href="https://docs.google.com/document/d/1tm5fyoq2T78d24Mp3pKGAfejZOCI8EAK0daY5JGhXfQ/edit">GoogleDOC</a>. </p>
+  <p>Another version writen by <a href="mailto:anh@opera.com">An He</a> is on the <a href="https://docs.google.com/document/d/1fziDejfVMGzr-WU07rwTjNoNQvPyMmGXAE-e-u3Q7A4/edit">GoogleDOC</a>. </p>
+
+  <h3><a href="javascript:void(0);">{% trans 'PPS Malfunction Guide' %}</a></h3>
+  <p>How to solve push problems: <a href="https://docs.google.com/document/d/1HhEFNOBW8J4dPDLwmtZtgZ7RtS_A9uw3qWSO5sPF_Iw/edit">GoogleDOC</a>. </p>
+
+  <h3><a href="javascript:void(0);">广告/活动/摇一摇</a></h3>
+  <p>如何推送活动 PUSH：<a href="https://docs.google.com/document/d/13sKqkB-M-6nHKtpxxdg9gakgraRcBDm5RM9L8nVbyI0/edit">GoogleDOC</a></p>
+
+  <h3><a href="lcx/latency/">{% trans 'Latency' %}</a></h3>
+  <p>List of <a href="lcx/latency/">all services</a> that pps required. </p>
+
+  <h3><a href="javascript:void(0);">{% trans 'Others' %}</a></h3>
+  <p>{% trans 'Nothing Found.' %}</p>
+</div>
+
+{% endblock %}
+

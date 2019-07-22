@@ -1,0 +1,26 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Complete' %}{% endblock %}
+
+{% block content %}
+  <h2>{% trans "Change status success !!!" %}</h2><br>
+  <a href="{% url 'admin:index' %}" class="btn btn-large">{% trans 'Go to admin home' %}</a>
+  <a href="{{ current_path }}" class="btn btn-info btn-large">{% trans 'Go back' %}</a>
+  <h3 id="countdown_text">Will go back in several seconds ...</h3>
+  <script type="text/javascript">
+    $(window).load(function() {
+      window.timer_countdown = 5;
+      document.getElementById('countdown_text').innerHTML = 'Will go back in ' + window.timer_countdown + 's ...';
+      setTimeout(function() {window.location.href = "{{ current_path }}";}, 1000);
+      setInterval(function(){
+        try {
+          if ( window.timer_countdown == 0 ) {window.location.href = '{{ current_path }}';}
+          window.timer_countdown--;
+          document.getElementById('countdown_text').innerHTML = 'Will go back in ' + window.timer_countdown + 's ...';
+        } catch(e) {
+        }
+      }, 1000);
+    });
+  </script>
+{% endblock %}

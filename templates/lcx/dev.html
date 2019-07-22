@@ -1,0 +1,10 @@
+{% extends "suit/error_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Not Implemented' %}{% endblock %}
+
+{% block error %}{% trans 'error'|capfirst %} 501{% endblock %}
+
+{% block content %}
+  {% trans "This module is under development and will soon be available. Thanks for your patience." %}
+{% endblock %}

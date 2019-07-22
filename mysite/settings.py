@@ -80,20 +80,54 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        #DIRS默认为空
-        # 'DIRS': [],
-        'APP_DIRS': True,
+        'DIRS': ['/Users/wangjinyu/PycharmProjects/django1.8_demo/templates',
+            # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+            # Always use forward slashes, even on Windows.
+            # Don't forget to use absolute paths, not relative paths.
+            # os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+        ],
+        'APP_DIRS': False,
         'OPTIONS': {
+            'debug': DEBUG,
             'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.core.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'loaders': [
+                # List of callables that know how to import templates from various sources.
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+                'django.template.loaders.eggs.Loader',
+            ]
         },
     },
 ]
+
+
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [os.path.join(BASE_DIR, 'templates')],
+#         #DIRS默认为空
+#         # 'DIRS': [],
+#         'APP_DIRS': True,
+#         # 'APP_DIRS': False,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
@@ -146,6 +180,7 @@ LANGUAGE_CODE = 'en-us'
 
 #中国时区
 TIME_ZONE = 'Asia/Shanghai'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -161,17 +196,25 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT='/Users/wangjinyu/PycharmProjects/django1.8_demo/static'
+STATICFILES_DIRS=('/Users/wangjinyu/PycharmProjects/django1.8_demo/static',)
 
 # Django Suit configuration example
+
+
+
 SUIT_CONFIG = {
     # header
-    'ADMIN_NAME': 'Django Suit',
-    'HEADER_DATE_FORMAT': 'l, j. F Y',
+    'ADMIN_NAME': 'Django Suit Demo',
+    'HEADER_DATE_FORMAT': 'l, j---F Y',
     'HEADER_TIME_FORMAT': 'H:i',
+
+    # 'HEADER_DATE_FORMAT': 'c',
+    # 'HEADER_TIME_FORMAT': 'r',
 
     # forms
     'SHOW_REQUIRED_ASTERISK': True,  # Default True
-    'CONFIRM_UNSAVED_CHANGES': True, # Default True
+    # 'CONFIRM_UNSAVED_CHANGES': True, # Default True
 
     # menu
     'SEARCH_URL': '/admin/auth/user/',
@@ -196,8 +239,10 @@ SUIT_CONFIG = {
     ),
 
     # misc
-    'LIST_PER_PAGE': 15
+    'LIST_PER_PAGE': 1
 }
+
+
 
 # TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 #     'django.core.context_processors.request',

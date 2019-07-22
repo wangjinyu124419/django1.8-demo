@@ -1,0 +1,55 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; {% trans 'Documentation' %}
+</div>
+{% endblock %}
+{% block title %}{% trans 'Documentation' %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans 'Why I see the latency Dialog ?' %}</h1>
+<p>PPS&PushCMS rely on several third party api services, when these service down, you may get problem with some function.</p>
+<p>When these third party service's latency too high, PPS will show a dialog to notify you to pay an attention.</p>
+<p>All services PPS&PushCMS relay on as following:</p>
+
+<div id="content-main">
+  <h3>LCX-PushServer</h3>
+  <p>{% trans 'Current site.' %}</p>
+
+  <h3>DW-ImageServer（http://img.transcoder.opera.com/）</h3>
+  <p>{% trans 'The image download server.' %}</p>
+  <p>{% trans 'If down, you may not see some or all of the pictures.' %}</p>
+  <p>Solution: Waiting for server back to normal or ask <a>Transcoding-Team</a> for support.</p>
+
+  <h3>UP-ImageServer（http://img-src.transcoder.opera.com/）</h3>
+  <p>{% trans 'The image upload server.' %}.</p>
+  <p>{% trans 'If down, you may not upload picture or edit news image.' %}</p>
+  <p>Solution: Waiting for server back to normal or ask <a>Transcoding-Team</a> for support.</p>
+
+  <h3>IN-TransServer</h3>
+  <p>{% trans 'India news profile transcode server.' %}</p>
+  <p>{% trans 'If down, you may get nothing when click the "transcode" button to add India news.' %}</p>
+  <p>Solution: Waiting for server back to normal or ask <a>Infra-Team</a> for support.</p>
+
+  <h3>ID-TransServer</h3>
+  <p>{% trans 'Indonesia news profile transcode server.' %}</p>
+  <p>{% trans 'If down, you may get nothing when click the "transcode" button to add Indonesia news.' %}</p>
+  <p>Solution: Waiting for server back to normal or ask <a>Infra-Team</a> for support.</p>
+
+  <h3>NL-TransServer</h3>
+  <p>{% trans 'Africa news profile transcode server.' %}</p>
+  <p>{% trans 'If down, you may get nothing when click the "transcode" button to add Africa news.' %}</p>
+  <p>Solution: Waiting for server back to normal or ask <a>Infra-Team</a> for support.</p>
+
+  <h3>US-TransServer</h3>
+  <p>{% trans 'America news profile transcode server.' %}</p>
+  <p>{% trans 'If down, you may get nothing when click the "transcode" button to add America news.' %}</p>
+  <p>Solution: Waiting for server back to normal or ask <a>Infra-Team</a> for support.</p>
+</div>
+
+{% endblock %}
+

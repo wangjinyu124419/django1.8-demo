@@ -1,0 +1,329 @@
+{% load admin_static %}{% load suit_tags %}{% load url from suit_compat %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{% block title %}{{ title }} | {{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</title>
+  {% block before_suit_styles %}{% endblock %}
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% endblock %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'suit/bootstrap/css/bootstrap.min.css' %}" media="all"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'suit/css/suit.css' %}" media="all">
+  <link rel="stylesheet" type="text/css" href="{% static 'lcx/floating-window.css' %}" media="all">
+  {% block extrastyle %}{% endblock %}
+  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"/>{% endif %}
+  <script type="text/javascript">window.__admin_media_prefix__ = "{% filter escapejs %}{% static "admin/" %}{% endfilter %}";</script>
+<script type="text/javascript">window.__admin_utc_offset__ = "{% filter escapejs %}{% now "Z" %}{% endfilter %}";</script>
+  {% block suit_jquery %}{% if '1.9'|django_version_gte %}<script src="{% static 'suit/js/jquery-2.2.4.min.js' %}">{% else %}<script src="{% static 'suit/js/jquery-1.8.3.min.js' %}">{% endif %}</script>{% endblock %}
+  <script type="text/javascript">var Suit = { $: $.noConflict() }; if (!$) $ = Suit.$; </script>
+  <script src="{% static 'suit/bootstrap/js/bootstrap.min.js' %}"></script>
+  {% if 'SHOW_REQUIRED_ASTERISK'|suit_conf %}
+{#  {% if 'SHOW_REQUIRED_ASTERISK' %}#}
+  <style type="text/css">.required:after { content: '*'; margin: 0 0 0 5px; position: absolute; color: #ccc;}</style>
+  {% endif %}
+
+    <!--  加js时间戳-->
+<!--  <script>document.write("<script type='text/javascript' src='/static/lcx/transcode_admin.js?v=" + Date.now() + "'><\/script>");</script>-->
+
+  {% block extrahead %}{% endblock %}
+
+  {% block blockbots %}
+    <meta name="robots" content="NONE,NOARCHIVE"/>{% endblock %}
+
+</head>
+{% load i18n %}
+
+<body class="{% if is_popup %}popup {% endif %}{% block bodyclass %}{% endblock %}">
+
+<!-- Sticky footer wrap -->
+<div id="wrap">
+
+  <!-- Container -->
+  {% block container %}
+    <div id="container">
+
+      {% block header %}
+        {% if not is_popup %}
+          <!-- Header -->
+          <div id="header" class="header">
+            <div id="branding">
+              <a href="{% url 'admin:index' %}"><h1 id="site-name">{% block branding %}{{ 'ADMIN_NAME'|suit_conf }}{% endblock %}</h1></a>
+            </div>
+
+            {% block header_time %}
+            <div class="header-content header-content-first">
+              <div class="header-column icon">
+                <i class="icon-time"></i>
+              </div>
+              <div class="header-column">
+                <span class="date"> {% suit_date %}</span><br>
+                <span class="time" id="clock">{% suit_time %}</span>
+              </div>
+            </div>
+            {% endblock %}
+
+            {% block header_content %}
+              <!--<div class="header-content">
+                <div class="header-column icon">
+                  <i class="icon-comment"></i>
+                </div>
+                <div class="header-column">
+                  <a href="" class="grey"><b>2</b> new messages</a>
+                </div>
+              </div>-->
+            {% endblock %}
+
+            {% if user.is_active and user.is_staff %}
+              <div id="user-tools">
+                {% block welcome-msg %}
+                  {% trans 'Welcome,' %}
+                  <strong>
+                    {% filter force_escape %}
+                      {% firstof user.first_name user.username %}{% endfilter %}</strong>.
+                {% endblock %}
+                <span class="user-links">
+                {% block userlinks %}
+                  {% url 'django-admindocs-docroot' as docsroot %}
+                  {% if docsroot %}
+                    <a href="{{ docsroot }}">{% trans 'Documentation' %}</a>
+                    <span class="separator">|</span>
+                  {% endif %}
+                  <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a>
+                  <span class="separator">|</span>
+                  <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+                {% endblock %}
+                </span>
+              </div>
+            {% endif %}
+<div class="header-content" style="float:right; padding:14px 20px 0 0;">
+    <div class="header-column">
+        <font color="#454545" style="text-shadow:none">Developed by <a href="mailto:chunxiaol@opera.com" style="color:#454545; text-shadow:none">chunxiaol@opera.com</a></font>
+    </div>
+</div>
+            {% block nav-global %}{% endblock %}
+          </div>
+        {% endif %}
+        <!-- END Header -->
+      {% endblock %}
+
+
+      <div class="suit-columns {{ is_popup|yesno:'one-column,two-columns' }}">
+
+        {% block content-center %}
+          <div id="suit-center" class="suit-column">
+
+            {% if not is_popup %}
+              {% block breadcrumbs %}
+                <ul class="breadcrumb">
+                  <li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+                    {% if title %}
+                      <span class="divider">&raquo;</span>
+                      </li>
+                      <li class="active">
+                      {{ title }}
+                    {% endif %}
+                    </li>
+                </ul>
+              {% endblock %}
+            {% endif %}
+
+            {% block messages %}
+              {% if messages %}
+
+                {% for message in messages %}
+                  <div class="alert alert-{% firstof message.tags 'info' %}">
+                    <button class="close" data-dismiss="alert">×</button>
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endblock messages %}
+
+            <!-- Content -->
+            <div id="content" class="{% block coltype %}colM{% endblock %} row-fluid">
+              {% block pretitle %}{% endblock %}
+              {% block content_title %}{% if title %}
+                <h2 class="content-title">{{ title }}</h2>
+              {% endif %}{% endblock %}
+              {% block content %}
+                {% block object-tools %}{% endblock %}
+                {{ content }}
+              {% endblock %}
+              {% block sidebar_content %}
+                {% block sidebar %}{% endblock %}
+              {% endblock %}
+            </div>
+            <!-- END Content -->
+          </div>
+        {% endblock %}
+
+
+        {% block content-left %}
+          {% if not is_popup %}
+            <div id="suit-left" class="suit-column">
+              {% block quick-search %}
+                {% with 'SEARCH_URL'|suit_conf as search_url %}
+                  {% if search_url %}
+                    <form class="form-search nav-quick-search" autocomplete="off" action="{% if '/' in search_url %}{{ search_url }}{% else %}{% url search_url %}{% endif %}" method="GET">
+                      <input type="text" name="q" class="input-medium search-query" id="quick-search">
+                      <i class="input-icon icon-search"></i>
+                      <input type="submit" class="submit" value="">
+                    </form>
+                  {% endif %}
+                {% endwith %}
+              {% endblock %}
+
+              {% include 'suit/menu.html' %}
+
+            </div>
+          {% endif %}
+        {% endblock %}
+
+      </div>
+    </div>
+  {% endblock %}
+
+  {% if not is_popup %}
+  <!-- Sticky footer push -->
+  <div id="push"></div>
+  {% endif %}
+
+</div>
+
+{% block footer %}
+  {% if not is_popup %}
+  <div id="footer" class="footer">
+    <div class="content">
+      <div class="tools">
+        {% block footer_links %}
+          <a href="http://djangosuit.com/support/" target="_blank" class="icon"><i class="icon-question-sign"></i>Support</a>
+          <a href="http://djangosuit.com/pricing/" target="_blank" class="icon"><i class="icon-bookmark"></i>Licence</a>
+          <a href="http://github.com/darklow/django-suit/issues" target="_blank" class="icon"><i class="icon-comment"></i>Report a bug</a>
+        {% endblock %}
+      </div>
+
+      <div class="copyright">
+        {% block copyright %}
+          Copyright &copy; 2013 DjangoSuit.com<br>Developed by <a href="http://djangosuit.com" target="_blank">DjangoSuit.com</a>
+        {% endblock %}
+      </div>
+
+      <div class="branding">{% block footer_branding %}
+        {% with 'ADMIN_NAME'|suit_conf as admin_name %}
+          {{ admin_name }}
+          {% if admin_name == 'Django Suit' %}
+            v{{ 'VERSION'|suit_conf }}
+          {% endif %}
+        {% endwith %}
+      {% endblock %}</div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+  <script src="{% static 'suit/js/suit.js' %}"></script>
+  {% block extrajs %}{% endblock %}
+<div class="dhtmlgoodies_window" id="dhtml_goodies_id2" style="bottom:0px; width:200px; position:fixed; display:none;">
+  <div class="dhtmlgoodies_window_top" id="top_bar2">
+    <img class="topCenterImage">
+    <div class="top_buttons">
+      <a href="/admin/doc/lcx/latency/" style="text-decoration-line:none; color:#fff; padding-left:6px; font-size:larger; float:left;">?</a>
+      <a href="javascript:void(0);" onclick="document.getElementById('dhtml_goodies_id2').style.display='none';" style="text-decoration-line:none; color:#fff; padding-left:7px;">╳</a>
+    </div>
+    <font style="padding-left:6px; color:#fff;">Title</font>
+  </div>
+  <div class="dhtmlgoodies_windowMiddle">
+    <div class="dhtmlgoodies_windowContent" id="windowContent2" style="height:250px;">
+    <!-- This is where you put the content -->
+    You is a floating window. You can resize it or move it as you want. 
+    <!-- End of where you put the content -->
+    </div>
+  </div>
+  <div class="dhtmlgoodies_window_bottom">
+  </div>
+</div>
+</body>
+<script>
+(function() {
+    "use strict";
+    if ( window.location.pathname.indexOf('/admin/news/push|') < 0 ) return;
+    if ( !document.getElementById('changelist') ) return;
+    document.onmousemove = handleMouseMove;
+    var lcx_suit_wrap = document.getElementById('wrap');
+    var lcx_suit_body = document.getElementsByClassName('suit-columns')[0];
+    if ( !lcx_suit_body ) return;
+    lcx_suit_body.setAttribute('style','padding-left:10px');
+    lcx_suit_wrap.setAttribute('style', 'background:transparent');
+    function handleMouseMove(event) {
+        var dot, eventDoc, doc, body, pageX, pageY;
+        event = event || window.event; // IE-ism
+        // If pageX/Y aren't available and clientX/Y
+        // are, calculate pageX/Y - logic taken from jQuery
+        // Calculate pageX/Y if missing and clientX/Y available
+        if (event.pageX == null && event.clientX != null) {
+            eventDoc = (event.target && event.target.ownerDocument) || document;
+            doc = eventDoc.documentElement;
+            body = eventDoc.body;
+            event.pageX = event.clientX +
+                (doc && doc.scrollLeft || body && body.scrollLeft || 0) -
+                (doc && doc.clientLeft || body && body.clientLeft || 0);
+            event.pageY = event.clientY +
+                (doc && doc.scrollTop  || body && body.scrollTop  || 0) -
+                (doc && doc.clientTop  || body && body.clientTop  || 0 );
+        }
+        var isVisible = (lcx_suit_body.getAttribute('style')+'').indexOf('padding-left')<0;
+        if (isVisible) {
+            if (event.pageX < 300) {
+                lcx_suit_body.removeAttribute('style');
+                lcx_suit_wrap.removeAttribute('style');
+            } else {
+                lcx_suit_body.setAttribute('style','padding-left:10px');
+                lcx_suit_wrap.setAttribute('style', 'background: transparent');
+            }
+        } else {
+            if (event.pageX < 30) {
+                lcx_suit_body.removeAttribute('style');
+                lcx_suit_wrap.removeAttribute('style');
+            } else {
+                lcx_suit_body.setAttribute('style','padding-left:10px');
+                lcx_suit_wrap.setAttribute('style', 'background: transparent');
+            }
+        }
+    }
+})();
+(function() {
+    var server_map = {
+        'LCX-PushServer': ['http://pps-cms.op-mobile.opera.com',                           'http://pps-cms.op-mobile.opera.com/status.html'],
+        'DW-ImageServer': ['http://img.transcoder.opera.com',                              'http://img.transcoder.opera.com/'],
+        'UP-ImageServer': ['http://img-cms.transcoder.opera.com',                          'http://pps-cms.op-mobile.opera.com/remote/image/new/'],
+        'IN-TransServer': ['http://sg-infra-extensible-17-5501.singa.op-mobile.opera.com', 'http://pps-cms.op-mobile.opera.com/remote/transcode/in/news/entry_id/status.html'],
+        'ID-TransServer': ['http://sg-infra-extensible-17-5001.singa.op-mobile.opera.com', 'http://pps-cms.op-mobile.opera.com/remote/transcode/id/news/entry_id/status.html'],
+        'NL-TransServer': ['http://cms-a-5001.ams.op-mobile.opera.com',                    'http://pps-cms.op-mobile.opera.com/remote/transcode/nl/news/entry_id/status.html'],
+        'US-TransServer': ['http://cms-us.op-mobile.opera.com:5001',                       'http://pps-cms.op-mobile.opera.com/remote/transcode/us/news/entry_id/status.html'],
+    };
+    var html = "";
+    var container = document.getElementById("dhtml_goodies_id2");
+    var content = document.getElementById("windowContent2");
+    container.querySelector('font').textContent = "Latency";
+    content.style.height = "150px";
+    for (name in server_map) {
+        var scp = 'var spent=Date.now()-parseInt(this.getAttribute(\'ts\')); this.previousElementSibling.textContent=spent+\' ms\'; if(spent>10000){this.previousElementSibling.style.color=\'#f00\';}';
+        html += '<p style="margin:0; font-family:monospace;">'+'<a href="'+server_map[name][0]+'" style="text-decoration:none;" target="_blank">'+name+'</a>'+'：'+'<font>...</font>'+'<img src="'+server_map[name][1]+' " ts="'+Date.now()+'" style="width:0px;height:0px;" onload="'+scp+'" onerror="'+scp+'"></p>';
+    }
+    html += '<p style=""><a style="text-decoration-line:none; color:#888;" href="/admin/doc/lcx/latency/">Why I see this ?</a></p>';
+    content.innerHTML = html;
+    setTimeout(function() {
+        content.querySelectorAll('font').forEach(function(item) {
+            var spent = parseInt(item.textContent.slice(0,-2));
+            if ( isNaN(spent) ) spent = 99999;
+            if ( spent>5000 ) container.style.display = '';
+            if ( spent>20000 ) {
+                item.textContent = 'timeout';
+                item.style.color = '#f00';
+                item.nextElementSibling.remove();
+            }
+        });
+    }, 21000);
+    if ( window.location.search.slice(0,11) == "?lcxdebug=1" ) container.style.display = '';
+    window.lcx_imgup_prefix = 'dn';
+})();
+</script>
+</html>
