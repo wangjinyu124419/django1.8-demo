@@ -5,7 +5,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django import forms
-from django.forms import MultipleChoiceField
+from django.forms import MultipleChoiceField, CharField
 
 from mysite.settings import logger
 from .models import Question
@@ -23,6 +23,7 @@ class QuestionForm(forms.ModelForm):
     #https://docs.djangoproject.com/en/2.2/ref/forms/widgets/#widget
     #initial决定默认选中哪个
     flags = MultipleChoiceField(initial= ['1','4',], choices=[('1','Sound'),('2','Vibrate'),('4','Light'),])
+    form_text= CharField(widget=forms.Textarea)
 
     # logger.error('flags.widget:%s'%flags.widget)
     #ERROR:root:flags.widget:<django.forms.widgets.SelectMultiple object at 0x102679b90>
@@ -102,11 +103,12 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['question_text']
 
     #默认显示对象的__str__,list_display显示指定字段
-    list_display = ('_x_news','question_text','t', 'pub_date', 'was_published_recently',)
-    list_display_links = ('question_text',)
+    # list_display = ('id','_x_news','question_text','t', 'pub_date', 'was_published_recently',)
+    list_display = ('id',)
+    # list_display_links = ('question_text',)
     actions = ['export_items_csv']
     actions_on_bottom=True
-    # list_per_page=10
+    list_per_page=10
     #显示其他对象，
     inlines = [ChoiceInline]
     # fieldsets控制添加数据是显示的字段
@@ -120,7 +122,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
     fieldsets = [
         # ('target', {'fields': ['question_text','t','year_in_school','push_entire','flags','prefer_football']}),
-        ('target', {'fields': ['question_text','t','year_in_school','push_entire','flags']}),
+        ('target', {'fields': ['question_text','t','year_in_school','push_entire','flags','form_text']}),
         # ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
         ('Date information', {'fields': ['pub_date'] }),
     ]
@@ -141,7 +143,15 @@ class QuestionAdmin(admin.ModelAdmin):
     #     super(QuestionAdmin, self).__init__(*args, **kwargs)
     #     logger.error('------%s'%self.model)
 
+    # def get_queryset(self, request):
+    #     # qs = super(QuestionAdmin, self).get_queryset(request)
+    #     # qs=Question.objects.raw('select id,_x_news,question_text,t, pub_date, was_published_recently from polls_question')
+    #     qs=Question.objects.raw('select id from polls_question')
+    #     # return qs.annotate(id__gt=Const.GetMinId('af'), deleted=0)
+    #     return qs
+        # return qs.filter(id__gt=1)
 
+        # return qs.filter(id__gt=2)
     # form.flags.widget
     def _x_news(self, obj):
         return '<a href="https://www.baidu.com/" target="_blank">wangjinyu</a>'

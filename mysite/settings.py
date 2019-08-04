@@ -18,8 +18,8 @@ import os
 # from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d ： %(message)s')
-logger = logging.getLogger(__name__)
+# logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(lineno)d ： %(message)s')
+# logger = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -80,17 +80,20 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/Users/wangjinyu/PycharmProjects/django1.8_demo/templates',
-            # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-            # Always use forward slashes, even on Windows.
-            # Don't forget to use absolute paths, not relative paths.
-            # os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
-        ],
+        'DIRS': [
+             # '/Users/wangjinyu/PycharmProjects/django1.8_demo/templates',
+             # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+             # Always use forward slashes, even on Windows.
+             # Don't forget to use absolute paths, not relative paths.
+              os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+         ],
+        # "DIRS":[],
         'APP_DIRS': False,
         'OPTIONS': {
             'debug': DEBUG,
             'context_processors': [
-                'django.core.context_processors.request',
+                # 'django.core.context_processors.request',
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.i18n',
@@ -116,8 +119,8 @@ TEMPLATES = [
 #         'DIRS': [os.path.join(BASE_DIR, 'templates')],
 #         #DIRS默认为空
 #         # 'DIRS': [],
-#         'APP_DIRS': True,
-#         # 'APP_DIRS': False,
+#         # 'APP_DIRS': True,
+#         'APP_DIRS': False,
 #         'OPTIONS': {
 #             'context_processors': [
 #                 'django.template.context_processors.debug',
@@ -247,34 +250,34 @@ SUIT_CONFIG = {
 # TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 #     'django.core.context_processors.request',
 # )
-# LOG=logging.getLogger('wang')
+logger=logging.getLogger('wang')
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'formatters': {
-#         'default': {
-#             'format': '%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] -> %(message)s'
-#         },
-#     },
-#     'handlers': {
-#         'default': {
-#             'level': 'DEBUG',
-#             # 'level': 'INFO',
-#             'class': 'logging.StreamHandler',
-#             'formatter': 'default',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['default'],
-#             # 'level': 'INFO',
-#             'level': 'DEBUG',
-#         },
-#         'django.request': {
-#             'handlers': ['default'],
-#             'level': 'DEBUG',
-#             'propagate': False,
-#         },
-#     }
-# }
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] -> %(message)s'
+        },
+    },
+    'handlers': {
+        'default': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['default'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
+
+
