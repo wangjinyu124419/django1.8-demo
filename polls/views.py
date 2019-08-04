@@ -1,10 +1,12 @@
+import time
+
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
+from django.views.decorators.cache import cache_page
 
 from .models import Choice, Question
-
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -24,7 +26,9 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
 
+@cache_page(60)
 def vote(request, question_id):
+    time.sleep(10)
     p = get_object_or_404(Question, pk=question_id)
     try:
         id=request.POST['choice']

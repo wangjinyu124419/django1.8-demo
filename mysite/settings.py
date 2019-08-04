@@ -280,4 +280,21 @@ LOGGING = {
     }
 }
 
-
+CACHES = {
+    # 'default': {
+    #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #     'OPTIONS': {
+    #         'MAX_ENTRIES': 1000,
+    #     }
+    # },
+    # 'redis': {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION':'redis://127.0.0.1:6379/0',
+        # 'LOCATION': [ 'redis://127.0.0.1:3306/0', # '{url}{db}'.format(url=Const.LCX_REDIS_SG, db=6),]
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            # 'PASSWORD': "124419",
+        },
+    },
+}
